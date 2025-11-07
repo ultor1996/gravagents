@@ -26,8 +26,10 @@ class ScientificInterpreterAgent:
         self.total_tokens_used = 0
         self.session_id = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-        self.api_key = "sk-ev4v3VCbmx15mXTKC_c30w"
-        self.base_url = "http://131.220.150.238:8080"
+        # self.api_key = "sk-ev4v3VCbmx15mXTKC_c30w"
+        # self.base_url = os.environ.get("OPENAI_BASE_URL")
+        self.api_key = os.environ.get("OPENAI_API_KEY")
+        self.base_url = os.environ.get("OPENAI_BASE_URL")
     
         self.llm_config = {
             "model": "openai/gpt-4.1-2025-04-14",
@@ -316,7 +318,7 @@ class MemoryAgent:
     
     def __init__(self, database_path: str = "/home/sr/Desktop/code/gravagents/database/memory"):
         self.api_key = "sk-ev4v3VCbmx15mXTKC_c30w"
-        self.base_url = "http://131.220.150.238:8080"
+        self.base_url = os.environ.get("OPENAI_BASE_URL")
         
         self.llm_config = {
             "model": "openai/gpt-4.1-2025-04-14",
@@ -749,7 +751,7 @@ class CoderAgent:
     def __init__(self, database_path: str = "/home/sr/Desktop/code/gravagents/database/code_documentation"):
         # LLM Configuration
         self.api_key = "sk-ev4v3VCbmx15mXTKC_c30w"
-        self.base_url = "http://131.220.150.238:8080"
+        self.base_url = os.environ.get("OPENAI_BASE_URL")
         
         self.llm_config = {
             "model": "openai/gpt-4.1-2025-04-14",
@@ -1305,7 +1307,7 @@ class ExecutorAgent:
     def __init__(self):
         # LLM Configuration
         self.api_key = "sk-ev4v3VCbmx15mXTKC_c30w"
-        self.base_url = "http://131.220.150.238:8080"
+        self.base_url = os.environ.get("OPENAI_BASE_URL")
         
         self.llm_config = {
             "model": "openai/gpt-4.1-2025-04-14",
@@ -1830,7 +1832,7 @@ class DebuggerAgent:
     def __init__(self,database_path: str = "/home/sr/Desktop/code/gravagents/database/code_documentation"):
         # LLM Configuration
         self.api_key = "sk-ev4v3VCbmx15mXTKC_c30w"
-        self.base_url = "http://131.220.150.238:8080"
+        self.base_url = os.environ.get("OPENAI_BASE_URL")
 
         self.database_path = database_path
         self.client = None

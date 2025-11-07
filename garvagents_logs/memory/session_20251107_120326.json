@@ -1,0 +1,299 @@
+{
+  "session_id": "20251107_120326",
+  "timestamp": "2025-11-07T12:06:44.466261",
+  "original_query": "Download the strain data for GW150914 event and plot the strain vs time plot.",
+  "status": "success",
+  "pipeline_complete": true,
+  "scientific_interpretation": {
+    "understanding": "The user wants to obtain the strain data for the GW150914 gravitational wave event and visualize the strain as a function of time.",
+    "knowledge_context": "GW150914 is the first direct detection of gravitational waves, observed by LIGO in 2015. The strain data is publicly available from the LIGO Open Science Center (LOSC). Standard practice involves downloading the data, optionally applying basic filtering to remove noise, and plotting the strain versus time to visualize the event signal.",
+    "scientific_context": "Visualizing the strain data as a function of time is a fundamental step in gravitational wave data analysis, allowing researchers to see the characteristic 'chirp' signal produced by binary black hole mergers like GW150914. Downloading the data from LOSC ensures reproducibility and access to calibrated strain measurements.",
+    "expected_outcomes": "We will obtain and visualize the raw strain data for GW150914, allowing us to see the gravitational wave signal as it appeared in the detectors. This provides insight into the event's temporal structure and the detectors' sensitivity.",
+    "tasks_generated": 2,
+    "confidence_score": 0.7
+  },
+  "code_generation": {
+    "tasks_processed": 2,
+    "total_documentation_sources": 2,
+    "code_results": [
+      {
+        "task_id": "task_1_data_loading",
+        "task_description": "Download the strain time series data for GW150914 from the LIGO Open Science Center for both Hanford (H1) and Livingston (L1) detectors.",
+        "analysis": "The task is to download the strain time series data for the GW150914 event from the LIGO Open Science Center (LOSC) for both Hanford (H1) and Livingston (L1) detectors, using either GWpy or PyCBC. The documentation and memory indicate that PyCBC's pycbc.catalog module provides a straightforward way to access event data, including strain time series, for LIGO events. The code should retrieve a 4-second window centered on the GW150914 event time. I will use PyCBC, as it is specifically mentioned in the documentation and is available in the environment. I will include error handling and print statements for progress tracking.",
+        "code": "# Import necessary modules\nfrom pycbc.catalog import Merger\nimport numpy as np\n\n# Define the event and window parameters\nevent_name = \"GW150914\"\nwindow_duration = 4  # seconds\n\ntry:\n    print(f\"Fetching event information for {event_name}...\")\n    # Retrieve the event from the PyCBC catalog\n    event = Merger(event_name)\n    event_time = event.time\n    print(f\"Event time (GPS): {event_time}\")\n\n    # Define the start and end times for the data window\n    start_time = event_time - window_duration / 2\n    end_time = event_time + window_duration / 2\n\n    # Download strain data for Hanford (H1)\n    print(\"Downloading Hanford (H1) strain data...\")\n    strain_H1 = event.strain('H1', start_time, end_time)\n    print(f\"Hanford (H1) strain data loaded: {len(strain_H1)} samples.\")\n\n    # Download strain data for Livingston (L1)\n    print(\"Downloading Livingston (L1) strain data...\")\n    strain_L1 = event.strain('L1', start_time, end_time)\n    print(f\"Livingston (L1) strain data loaded: {len(strain_L1)} samples.\")\n\nexcept Exception as e:\n    print(f\"Error occurred while downloading strain data: {e}\")\n    strain_H1 = None\n    strain_L1 = None\n\n# The strain data are stored in strain_H1 and strain_L1 variables for further analysis.",
+        "explanation": "This code uses PyCBC's catalog interface to fetch the GW150914 event and its GPS time. It then defines a 4-second window centered on the event and downloads the strain time series for both the Hanford (H1) and Livingston (L1) detectors. The data are stored in the variables strain_H1 and strain_L1, which can be used in subsequent analysis steps. The code includes error handling and prints progress updates for transparency. If an error occurs, the strain variables are set to None.",
+        "documentation_used": 1,
+        "memory_insights_used": true,
+        "documentation_sources": [
+          "RAG_synthesized"
+        ],
+        "available_packages": {
+          "gwpy": "3.0.13",
+          "astropy": "6.1.7",
+          "numpy": "2.2.6",
+          "scipy": "1.15.3",
+          "matplotlib": "3.10.6",
+          "h5py": "3.14.0",
+          "pycbc": "2.9.0",
+          "torch": "2.8.0"
+        },
+        "packages_used_in_query": 8,
+        "raw_response": "ANALYSIS:\nThe task is to download the strain time series data for the GW150914 event from the LIGO Open Science Center (LOSC) for both Hanford (H1) and Livingston (L1) detectors, using either GWpy or PyCBC. The documentation and memory indicate that PyCBC's pycbc.catalog module provides a straightforward way to access event data, including strain time series, for LIGO events. The code should retrieve a 4-second window centered on the GW150914 event time. I will use PyCBC, as it is specifically mentioned in the documentation and is available in the environment. I will include error handling and print statements for progress tracking.\n\nCODE:\n```python\n# Import necessary modules\nfrom pycbc.catalog import Merger\nimport numpy as np\n\n# Define the event and window parameters\nevent_name = \"GW150914\"\nwindow_duration = 4  # seconds\n\ntry:\n    print(f\"Fetching event information for {event_name}...\")\n    # Retrieve the event from the PyCBC catalog\n    event = Merger(event_name)\n    event_time = event.time\n    print(f\"Event time (GPS): {event_time}\")\n\n    # Define the start and end times for the data window\n    start_time = event_time - window_duration / 2\n    end_time = event_time + window_duration / 2\n\n    # Download strain data for Hanford (H1)\n    print(\"Downloading Hanford (H1) strain data...\")\n    strain_H1 = event.strain('H1', start_time, end_time)\n    print(f\"Hanford (H1) strain data loaded: {len(strain_H1)} samples.\")\n\n    # Download strain data for Livingston (L1)\n    print(\"Downloading Livingston (L1) strain data...\")\n    strain_L1 = event.strain('L1', start_time, end_time)\n    print(f\"Livingston (L1) strain data loaded: {len(strain_L1)} samples.\")\n\nexcept Exception as e:\n    print(f\"Error occurred while downloading strain data: {e}\")\n    strain_H1 = None\n    strain_L1 = None\n\n# The strain data are stored in strain_H1 and strain_L1 variables for further analysis.\n```\n\nEXPLANATION:\nThis code uses PyCBC's catalog interface to fetch the GW150914 event and its GPS time. It then defines a 4-second window centered on the event and downloads the strain time series for both the Hanford (H1) and Livingston (L1) detectors. The data are stored in the variables strain_H1 and strain_L1, which can be used in subsequent analysis steps. The code includes error handling and prints progress updates for transparency. If an error occurs, the strain variables are set to None.",
+        "timestamp": "2025-11-07T12:04:54.370697",
+        "confidence_score": 0.5,
+        "requires_human_review": true
+      },
+      {
+        "task_id": "task_2_visualization",
+        "task_description": "Plot the strain versus time for the GW150914 event for each detector.",
+        "analysis": "The task is to plot the strain versus time for the GW150914 event for both Hanford (H1) and Livingston (L1) detectors, using the raw strain data loaded in the previous step. The available packages include matplotlib for plotting and numpy for array manipulation. The strain data variables (strain_H1, strain_L1) from PyCBC are expected to be numpy arrays or similar, with associated sample rates and start times. The plot should clearly label axes, indicate the event time, and provide legends for clarity. I will include error handling and progress print statements.",
+        "code": "import matplotlib.pyplot as plt\nimport numpy as np\n\n# Assume strain_H1, strain_L1, and event_time are available from previous step\n\ntry:\n    print(\"Preparing time arrays for plotting...\")\n    # Get sample rate and start time from strain objects\n    # PyCBC TimeSeries objects have .sample_rate and .start_time attributes\n    sr_H1 = strain_H1.sample_rate\n    sr_L1 = strain_L1.sample_rate\n    t0_H1 = strain_H1.start_time\n    t0_L1 = strain_L1.start_time\n\n    # Create time arrays relative to event time\n    times_H1 = np.arange(len(strain_H1)) / sr_H1 + float(t0_H1) - float(event_time)\n    times_L1 = np.arange(len(strain_L1)) / sr_L1 + float(t0_L1) - float(event_time)\n\n    print(\"Plotting strain data for H1 and L1...\")\n    plt.figure(figsize=(12, 6))\n\n    # Plot H1\n    plt.subplot(2, 1, 1)\n    plt.plot(times_H1, strain_H1, label='Hanford (H1)', color='C0')\n    plt.axvline(0, color='k', linestyle='--', label='Event time')\n    plt.xlabel('Time (s) relative to event')\n    plt.ylabel('Strain')\n    plt.title('GW150914 Strain - Hanford (H1)')\n    plt.legend()\n    plt.grid(True)\n\n    # Plot L1\n    plt.subplot(2, 1, 2)\n    plt.plot(times_L1, strain_L1, label='Livingston (L1)', color='C1')\n    plt.axvline(0, color='k', linestyle='--', label='Event time')\n    plt.xlabel('Time (s) relative to event')\n    plt.ylabel('Strain')\n    plt.title('GW150914 Strain - Livingston (L1)')\n    plt.legend()\n    plt.grid(True)\n\n    plt.tight_layout()\n    plt.show()\n    print(\"Plotting complete.\")\n\nexcept Exception as e:\n    print(f\"Error during plotting: {e}\")",
+        "explanation": "This code generates time arrays for each detector, centered on the GW150914 event time, and plots the raw strain data for both Hanford (H1) and Livingston (L1) in separate subplots. Each plot includes labeled axes, a vertical dashed line at the event time (t=0), a legend, and a grid for clarity. The code includes error handling and progress messages. The expected output is a two-panel figure showing the strain time series for both detectors, with the event time clearly indicated.",
+        "documentation_used": 1,
+        "memory_insights_used": true,
+        "documentation_sources": [
+          "RAG_synthesized"
+        ],
+        "available_packages": {
+          "gwpy": "3.0.13",
+          "astropy": "6.1.7",
+          "numpy": "2.2.6",
+          "scipy": "1.15.3",
+          "matplotlib": "3.10.6",
+          "h5py": "3.14.0",
+          "pycbc": "2.9.0",
+          "torch": "2.8.0"
+        },
+        "packages_used_in_query": 8,
+        "raw_response": "ANALYSIS:\nThe task is to plot the strain versus time for the GW150914 event for both Hanford (H1) and Livingston (L1) detectors, using the raw strain data loaded in the previous step. The available packages include matplotlib for plotting and numpy for array manipulation. The strain data variables (strain_H1, strain_L1) from PyCBC are expected to be numpy arrays or similar, with associated sample rates and start times. The plot should clearly label axes, indicate the event time, and provide legends for clarity. I will include error handling and progress print statements.\n\nCODE:\n```python\nimport matplotlib.pyplot as plt\nimport numpy as np\n\n# Assume strain_H1, strain_L1, and event_time are available from previous step\n\ntry:\n    print(\"Preparing time arrays for plotting...\")\n    # Get sample rate and start time from strain objects\n    # PyCBC TimeSeries objects have .sample_rate and .start_time attributes\n    sr_H1 = strain_H1.sample_rate\n    sr_L1 = strain_L1.sample_rate\n    t0_H1 = strain_H1.start_time\n    t0_L1 = strain_L1.start_time\n\n    # Create time arrays relative to event time\n    times_H1 = np.arange(len(strain_H1)) / sr_H1 + float(t0_H1) - float(event_time)\n    times_L1 = np.arange(len(strain_L1)) / sr_L1 + float(t0_L1) - float(event_time)\n\n    print(\"Plotting strain data for H1 and L1...\")\n    plt.figure(figsize=(12, 6))\n\n    # Plot H1\n    plt.subplot(2, 1, 1)\n    plt.plot(times_H1, strain_H1, label='Hanford (H1)', color='C0')\n    plt.axvline(0, color='k', linestyle='--', label='Event time')\n    plt.xlabel('Time (s) relative to event')\n    plt.ylabel('Strain')\n    plt.title('GW150914 Strain - Hanford (H1)')\n    plt.legend()\n    plt.grid(True)\n\n    # Plot L1\n    plt.subplot(2, 1, 2)\n    plt.plot(times_L1, strain_L1, label='Livingston (L1)', color='C1')\n    plt.axvline(0, color='k', linestyle='--', label='Event time')\n    plt.xlabel('Time (s) relative to event')\n    plt.ylabel('Strain')\n    plt.title('GW150914 Strain - Livingston (L1)')\n    plt.legend()\n    plt.grid(True)\n\n    plt.tight_layout()\n    plt.show()\n    print(\"Plotting complete.\")\n\nexcept Exception as e:\n    print(f\"Error during plotting: {e}\")\n```\n\nEXPLANATION:\nThis code generates time arrays for each detector, centered on the GW150914 event time, and plots the raw strain data for both Hanford (H1) and Livingston (L1) in separate subplots. Each plot includes labeled axes, a vertical dashed line at the event time (t=0), a legend, and a grid for clarity. The code includes error handling and progress messages. The expected output is a two-panel figure showing the strain time series for both detectors, with the event time clearly indicated.",
+        "timestamp": "2025-11-07T12:05:37.354443",
+        "confidence_score": 0.5,
+        "requires_human_review": true
+      }
+    ],
+    "average_confidence": 0.5
+  },
+  "script_execution": {
+    "session_id": "20251107_120326",
+    "status": "success",
+    "original_query": "Download the strain data for GW150914 event and plot the strain vs time plot.",
+    "integration_result": {
+      "integration_analysis": "The workflow consists of two main tasks: (1) downloading the GW150914 strain data for both Hanford (H1) and Livingston (L1) detectors using PyCBC, and (2) plotting the strain versus time for both detectors using matplotlib. Task 2 depends on the successful completion of Task 1, as it requires the strain data and event time variables produced in Task 1.\n\nKey integration points:\n- All necessary imports are consolidated at the top, avoiding duplicates.\n- Variables (`strain_H1`, `strain_L1`, `event_time`) are passed directly from Task 1 to Task 2.\n- Comprehensive error handling is included for both data download and plotting.\n- Progress print statements are added for user feedback.\n- The script saves the downloaded strain data as NumPy `.npy` files for reproducibility and the final plot as a `.png` file.\n- The script is ready to execute as a standalone Python file.",
+      "integrated_script": "# ==========================\n# GW150914 Strain Data Download and Visualization\n# ==========================\n\n# ---- Imports ----\nfrom pycbc.catalog import Merger\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport os\nimport sys\n\n# ---- Configuration ----\nEVENT_NAME = \"GW150914\"\nWINDOW_DURATION = 4  # seconds\nOUTPUT_DIR = \"gw150914_outputs\"\nos.makedirs(OUTPUT_DIR, exist_ok=True)\n\n# ---- Task 1: Download Strain Data ----\nprint(\"=\"*60)\nprint(f\"Step 1: Downloading strain data for event {EVENT_NAME}\")\nprint(\"=\"*60)\n\ntry:\n    print(f\"Fetching event information for {EVENT_NAME}...\")\n    event = Merger(EVENT_NAME)\n    event_time = event.time\n    print(f\"Event time (GPS): {event_time}\")\n\n    # Download Hanford (H1) strain data (default segment)\n    print(\"Downloading Hanford (H1) strain data...\")\n    strain_H1 = event.strain('H1')\n    print(f\"Hanford (H1) strain data loaded: {len(strain_H1)} samples.\")\n\n    # Download Livingston (L1) strain data (default segment)\n    print(\"Downloading Livingston (L1) strain data...\")\n    strain_L1 = event.strain('L1')\n    print(f\"Livingston (L1) strain data loaded: {len(strain_L1)} samples.\")\n\n    # Slice to desired window around event_time\n    start_time = event_time - WINDOW_DURATION / 2\n    end_time = event_time + WINDOW_DURATION / 2\n    strain_H1_win = strain_H1.time_slice(start_time, end_time)\n    strain_L1_win = strain_L1.time_slice(start_time, end_time)\n\n    # Save strain data for reproducibility (save as numpy arrays)\n    np.save(os.path.join(OUTPUT_DIR, \"strain_H1.npy\"), strain_H1_win.numpy())\n    np.save(os.path.join(OUTPUT_DIR, \"strain_L1.npy\"), strain_L1_win.numpy())\n    with open(os.path.join(OUTPUT_DIR, \"event_time.txt\"), \"w\") as f:\n        f.write(str(event_time))\n\n    print(f\"Strain data and event time saved in '{OUTPUT_DIR}'.\")\n\nexcept Exception as e:\n    print(f\"Error occurred while downloading strain data: {e}\")\n    print(\"Exiting script.\")\n    sys.exit(1)\n\n# ---- Task 2: Plot Strain vs Time ----\nprint(\"\\n\" + \"=\"*60)\nprint(\"Step 2: Plotting strain vs time for H1 and L1\")\nprint(\"=\"*60)\n\ntry:\n    print(\"Preparing time arrays for plotting...\")\n    # Get sample rate and start time from strain objects\n    sr_H1 = strain_H1_win.sample_rate\n    sr_L1 = strain_L1_win.sample_rate\n    t0_H1 = strain_H1_win.start_time\n    t0_L1 = strain_L1_win.start_time\n\n    # Create time arrays relative to event time\n    times_H1 = np.arange(len(strain_H1_win)) / sr_H1 + float(t0_H1) - float(event_time)\n    times_L1 = np.arange(len(strain_L1_win)) / sr_L1 + float(t0_L1) - float(event_time)\n\n    print(\"Plotting strain data for H1 and L1...\")\n    plt.figure(figsize=(12, 6))\n\n    # Plot H1\n    plt.subplot(2, 1, 1)\n    plt.plot(times_H1, strain_H1_win, label='Hanford (H1)', color='C0')\n    plt.axvline(0, color='k', linestyle='--', label='Event time')\n    plt.xlabel('Time (s) relative to event')\n    plt.ylabel('Strain')\n    plt.title('GW150914 Strain - Hanford (H1)')\n    plt.legend()\n    plt.grid(True)\n\n    # Plot L1\n    plt.subplot(2, 1, 2)\n    plt.plot(times_L1, strain_L1_win, label='Livingston (L1)', color='C1')\n    plt.axvline(0, color='k', linestyle='--', label='Event time')\n    plt.xlabel('Time (s) relative to event')\n    plt.ylabel('Strain')\n    plt.title('GW150914 Strain - Livingston (L1)')\n    plt.legend()\n    plt.grid(True)\n\n    plt.tight_layout()\n    plot_path = os.path.join(OUTPUT_DIR, \"GW150914_strain_plot.png\")\n    plt.savefig(plot_path)\n    plt.show()\n    print(f\"Plotting complete. Plot saved as '{plot_path}'.\")\n\nexcept Exception as e:\n    print(f\"Error during plotting: {e}\")\n    print(\"Exiting script.\")\n    sys.exit(2)\n\nprint(\"\\nAll steps completed successfully.\")",
+      "execution_notes": "- The script will create a directory named `gw150914_outputs` in the current working directory to store the strain data (`strain_H1.npy`, `strain_L1.npy`), the event time (`event_time.txt`), and the final plot (`GW150914_strain_plot.png`).\n- The script requires internet access to download data from the LIGO Open Science Center via PyCBC.\n- If any error occurs during data download or plotting, the script will print an error message and exit with a non-zero status.\n- The plot will be displayed interactively and also saved as a PNG file for later reference.\n- The script is ready to run as-is, provided the required packages are installed and available in your Python environment.",
+      "original_query": "Download the strain data for GW150914 event and plot the strain vs time plot.",
+      "tasks_integrated": 2,
+      "task_details": [
+        {
+          "task_id": "task_1_data_loading",
+          "description": "Download the strain time series data for GW150914 from the LIGO Open Science Center for both Hanford (H1) and Livingston (L1) detectors.",
+          "code_length": 1234
+        },
+        {
+          "task_id": "task_2_visualization",
+          "description": "Plot the strain versus time for the GW150914 event for each detector.",
+          "code_length": 1553
+        }
+      ],
+      "available_packages": {
+        "gwpy": "3.0.13",
+        "astropy": "6.1.7",
+        "numpy": "2.2.6",
+        "scipy": "1.15.3",
+        "matplotlib": "3.10.6",
+        "h5py": "3.14.0",
+        "pycbc": "2.9.0",
+        "torch": "2.8.0"
+      },
+      "raw_llm_response": "INTEGRATION ANALYSIS:\nThe workflow consists of two main tasks: (1) downloading the GW150914 strain data for both Hanford (H1) and Livingston (L1) detectors using PyCBC, and (2) plotting the strain versus time for both detectors using matplotlib. Task 2 depends on the successful completion of Task 1, as it requires the strain data and event time variables produced in Task 1.\n\nKey integration points:\n- All necessary imports are consolidated at the top, avoiding duplicates.\n- Variables (`strain_H1`, `strain_L1`, `event_time`) are passed directly from Task 1 to Task 2.\n- Comprehensive error handling is included for both data download and plotting.\n- Progress print statements are added for user feedback.\n- The script saves the downloaded strain data as NumPy `.npy` files for reproducibility and the final plot as a `.png` file.\n- The script is ready to execute as a standalone Python file.\n\nINTEGRATED SCRIPT:\n```python\n# ==========================\n# GW150914 Strain Data Download and Visualization\n# ==========================\n\n# ---- Imports ----\nfrom pycbc.catalog import Merger\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport os\nimport sys\n\n# ---- Configuration ----\nEVENT_NAME = \"GW150914\"\nWINDOW_DURATION = 4  # seconds\nOUTPUT_DIR = \"gw150914_outputs\"\nos.makedirs(OUTPUT_DIR, exist_ok=True)\n\n# ---- Task 1: Download Strain Data ----\nprint(\"=\"*60)\nprint(f\"Step 1: Downloading strain data for event {EVENT_NAME}\")\nprint(\"=\"*60)\n\ntry:\n    print(f\"Fetching event information for {EVENT_NAME}...\")\n    event = Merger(EVENT_NAME)\n    event_time = event.time\n    print(f\"Event time (GPS): {event_time}\")\n\n    start_time = event_time - WINDOW_DURATION / 2\n    end_time = event_time + WINDOW_DURATION / 2\n\n    # Download Hanford (H1) strain data\n    print(\"Downloading Hanford (H1) strain data...\")\n    strain_H1 = event.strain('H1', start_time, end_time)\n    print(f\"Hanford (H1) strain data loaded: {len(strain_H1)} samples.\")\n\n    # Download Livingston (L1) strain data\n    print(\"Downloading Livingston (L1) strain data...\")\n    strain_L1 = event.strain('L1', start_time, end_time)\n    print(f\"Livingston (L1) strain data loaded: {len(strain_L1)} samples.\")\n\n    # Save strain data for reproducibility\n    np.save(os.path.join(OUTPUT_DIR, \"strain_H1.npy\"), strain_H1)\n    np.save(os.path.join(OUTPUT_DIR, \"strain_L1.npy\"), strain_L1)\n    with open(os.path.join(OUTPUT_DIR, \"event_time.txt\"), \"w\") as f:\n        f.write(str(event_time))\n\n    print(f\"Strain data and event time saved in '{OUTPUT_DIR}'.\")\n\nexcept Exception as e:\n    print(f\"Error occurred while downloading strain data: {e}\")\n    print(\"Exiting script.\")\n    sys.exit(1)\n\n# ---- Task 2: Plot Strain vs Time ----\nprint(\"\\n\" + \"=\"*60)\nprint(\"Step 2: Plotting strain vs time for H1 and L1\")\nprint(\"=\"*60)\n\ntry:\n    print(\"Preparing time arrays for plotting...\")\n    # Get sample rate and start time from strain objects\n    sr_H1 = strain_H1.sample_rate\n    sr_L1 = strain_L1.sample_rate\n    t0_H1 = strain_H1.start_time\n    t0_L1 = strain_L1.start_time\n\n    # Create time arrays relative to event time\n    times_H1 = np.arange(len(strain_H1)) / sr_H1 + float(t0_H1) - float(event_time)\n    times_L1 = np.arange(len(strain_L1)) / sr_L1 + float(t0_L1) - float(event_time)\n\n    print(\"Plotting strain data for H1 and L1...\")\n    plt.figure(figsize=(12, 6))\n\n    # Plot H1\n    plt.subplot(2, 1, 1)\n    plt.plot(times_H1, strain_H1, label='Hanford (H1)', color='C0')\n    plt.axvline(0, color='k', linestyle='--', label='Event time')\n    plt.xlabel('Time (s) relative to event')\n    plt.ylabel('Strain')\n    plt.title('GW150914 Strain - Hanford (H1)')\n    plt.legend()\n    plt.grid(True)\n\n    # Plot L1\n    plt.subplot(2, 1, 2)\n    plt.plot(times_L1, strain_L1, label='Livingston (L1)', color='C1')\n    plt.axvline(0, color='k', linestyle='--', label='Event time')\n    plt.xlabel('Time (s) relative to event')\n    plt.ylabel('Strain')\n    plt.title('GW150914 Strain - Livingston (L1)')\n    plt.legend()\n    plt.grid(True)\n\n    plt.tight_layout()\n    plot_path = os.path.join(OUTPUT_DIR, \"GW150914_strain_plot.png\")\n    plt.savefig(plot_path)\n    plt.show()\n    print(f\"Plotting complete. Plot saved as '{plot_path}'.\")\n\nexcept Exception as e:\n    print(f\"Error during plotting: {e}\")\n    print(\"Exiting script.\")\n    sys.exit(2)\n\nprint(\"\\nAll steps completed successfully.\")\n```\n\nEXECUTION NOTES:\n- The script will create a directory named `gw150914_outputs` in the current working directory to store the strain data (`strain_H1.npy`, `strain_L1.npy`), the event time (`event_time.txt`), and the final plot (`GW150914_strain_plot.png`).\n- The script requires internet access to download data from the LIGO Open Science Center via PyCBC.\n- If any error occurs during data download or plotting, the script will print an error message and exit with a non-zero status.\n- The plot will be displayed interactively and also saved as a PNG file for later reference.\n- The script is ready to run as-is, provided the required packages are installed and available in your Python environment.",
+      "timestamp": "2025-11-07T12:05:55.377773",
+      "debug_info": {
+        "attempt": 1,
+        "previous_error": "Script errors detected in output",
+        "fix_applied": "[DATABASE-GUIDED] - The main fix is to call event.strain('H1') and event.strain('L1') without start and end times, following the official PyCBC catalog documentation and code examples (see Tutorial: Catalog Data and Visualization & Signal Processing).\n- The desired time window is extracted using the .time_slice(start, end) method on the returned TimeSeries, which is the correct and robust way to select a window.\n- When saving the strain data, we use .numpy() to convert the TimeSeries to a numpy array, ensuring compatibility with np.save.\n- All plotting and time array logic is updated to use the windowed strain data.\n- This approach is robust to the available data segment and avoids the error \"no strain data is available as requested for GW150914\".\n- The fix is directly guided by the code examples and documentation in the database, ensuring compatibility and correctness."
+      }
+    },
+    "execution_result": {
+      "success": true,
+      "return_code": 0,
+      "stdout": "============================================================\nStep 1: Downloading strain data for event GW150914\n============================================================\nFetching event information for GW150914...\nEvent time (GPS): 1126259462.4\nDownloading Hanford (H1) strain data...\nHanford (H1) strain data loaded: 131072 samples.\nDownloading Livingston (L1) strain data...\nLivingston (L1) strain data loaded: 131072 samples.\nStrain data and event time saved in 'gw150914_outputs'.\n\n============================================================\nStep 2: Plotting strain vs time for H1 and L1\n============================================================\nPreparing time arrays for plotting...\nPlotting strain data for H1 and L1...\nPlotting complete. Plot saved as 'gw150914_outputs/GW150914_strain_plot.png'.\n\nAll steps completed successfully.\n",
+      "stderr": "/home/sr/miniconda3/envs/gravagent/lib/python3.10/site-packages/pykerr/qnm.py:2: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n  import pkg_resources\n",
+      "execution_time": 7.547619,
+      "script_path": "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/integrated_analysis_20251107_120636.py",
+      "execution_directory": "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script",
+      "has_runtime_errors": false,
+      "error_indicators": [],
+      "timestamp": "2025-11-07T12:06:44.465819",
+      "output_files": [
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_L1_strain.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_whitened_bandpassed_strain_zoom.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_filtered_strain.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_H1_filtered_time_domain.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_H1_filtered.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/l1_strain.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/h1_whiten.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw_analysis_outputs",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw170817_raw_strain.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw150914_analysis_results",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_L1_raw.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw150914_outputs",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/l1_filtered.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/reduced_template_bank.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_H1_times.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_L1_filtered_time_domain.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_L1_filtered.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw150914_matched_filter_results",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/L1_GW170608_zoomed_plots.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/h1_strain.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/strain_H1_raw.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/matched_filter_results.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/filtered_strain_H1.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/results",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/l1_whiten.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_H1_raw.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/template_bank_keys.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_strain_plot.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/psds.npz",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/failed_templates.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/H1_GW170608_zoomed_plots.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/templates.npz",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/whitened_strain_H1.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_H1_strain.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/strain_L1_raw.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw170817_preprocessed_strain.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/h1_filtered.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_L1_times.npy"
+      ]
+    },
+    "execution_requested": true,
+    "token_usage": 2899,
+    "timestamp": "2025-11-07T12:05:57.999134"
+  },
+  "debug_session": {
+    "status": "debug_success",
+    "debug_attempts": 1,
+    "debug_history": [
+      {
+        "debug_attempt": 1,
+        "core_error": "Error occurred while downloading strain data: no strain data is available as requested for GW150914",
+        "attempt_number": 1,
+        "fixed_code": "# ==========================\n# GW150914 Strain Data Download and Visualization\n# ==========================\n\n# ---- Imports ----\nfrom pycbc.catalog import Merger\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport os\nimport sys\n\n# ---- Configuration ----\nEVENT_NAME = \"GW150914\"\nWINDOW_DURATION = 4  # seconds\nOUTPUT_DIR = \"gw150914_outputs\"\nos.makedirs(OUTPUT_DIR, exist_ok=True)\n\n# ---- Task 1: Download Strain Data ----\nprint(\"=\"*60)\nprint(f\"Step 1: Downloading strain data for event {EVENT_NAME}\")\nprint(\"=\"*60)\n\ntry:\n    print(f\"Fetching event information for {EVENT_NAME}...\")\n    event = Merger(EVENT_NAME)\n    event_time = event.time\n    print(f\"Event time (GPS): {event_time}\")\n\n    # Download Hanford (H1) strain data (default segment)\n    print(\"Downloading Hanford (H1) strain data...\")\n    strain_H1 = event.strain('H1')\n    print(f\"Hanford (H1) strain data loaded: {len(strain_H1)} samples.\")\n\n    # Download Livingston (L1) strain data (default segment)\n    print(\"Downloading Livingston (L1) strain data...\")\n    strain_L1 = event.strain('L1')\n    print(f\"Livingston (L1) strain data loaded: {len(strain_L1)} samples.\")\n\n    # Slice to desired window around event_time\n    start_time = event_time - WINDOW_DURATION / 2\n    end_time = event_time + WINDOW_DURATION / 2\n    strain_H1_win = strain_H1.time_slice(start_time, end_time)\n    strain_L1_win = strain_L1.time_slice(start_time, end_time)\n\n    # Save strain data for reproducibility (save as numpy arrays)\n    np.save(os.path.join(OUTPUT_DIR, \"strain_H1.npy\"), strain_H1_win.numpy())\n    np.save(os.path.join(OUTPUT_DIR, \"strain_L1.npy\"), strain_L1_win.numpy())\n    with open(os.path.join(OUTPUT_DIR, \"event_time.txt\"), \"w\") as f:\n        f.write(str(event_time))\n\n    print(f\"Strain data and event time saved in '{OUTPUT_DIR}'.\")\n\nexcept Exception as e:\n    print(f\"Error occurred while downloading strain data: {e}\")\n    print(\"Exiting script.\")\n    sys.exit(1)\n\n# ---- Task 2: Plot Strain vs Time ----\nprint(\"\\n\" + \"=\"*60)\nprint(\"Step 2: Plotting strain vs time for H1 and L1\")\nprint(\"=\"*60)\n\ntry:\n    print(\"Preparing time arrays for plotting...\")\n    # Get sample rate and start time from strain objects\n    sr_H1 = strain_H1_win.sample_rate\n    sr_L1 = strain_L1_win.sample_rate\n    t0_H1 = strain_H1_win.start_time\n    t0_L1 = strain_L1_win.start_time\n\n    # Create time arrays relative to event time\n    times_H1 = np.arange(len(strain_H1_win)) / sr_H1 + float(t0_H1) - float(event_time)\n    times_L1 = np.arange(len(strain_L1_win)) / sr_L1 + float(t0_L1) - float(event_time)\n\n    print(\"Plotting strain data for H1 and L1...\")\n    plt.figure(figsize=(12, 6))\n\n    # Plot H1\n    plt.subplot(2, 1, 1)\n    plt.plot(times_H1, strain_H1_win, label='Hanford (H1)', color='C0')\n    plt.axvline(0, color='k', linestyle='--', label='Event time')\n    plt.xlabel('Time (s) relative to event')\n    plt.ylabel('Strain')\n    plt.title('GW150914 Strain - Hanford (H1)')\n    plt.legend()\n    plt.grid(True)\n\n    # Plot L1\n    plt.subplot(2, 1, 2)\n    plt.plot(times_L1, strain_L1_win, label='Livingston (L1)', color='C1')\n    plt.axvline(0, color='k', linestyle='--', label='Event time')\n    plt.xlabel('Time (s) relative to event')\n    plt.ylabel('Strain')\n    plt.title('GW150914 Strain - Livingston (L1)')\n    plt.legend()\n    plt.grid(True)\n\n    plt.tight_layout()\n    plot_path = os.path.join(OUTPUT_DIR, \"GW150914_strain_plot.png\")\n    plt.savefig(plot_path)\n    plt.show()\n    print(f\"Plotting complete. Plot saved as '{plot_path}'.\")\n\nexcept Exception as e:\n    print(f\"Error during plotting: {e}\")\n    print(\"Exiting script.\")\n    sys.exit(2)\n\nprint(\"\\nAll steps completed successfully.\")",
+        "explanation": "[DATABASE-GUIDED] - The main fix is to call event.strain('H1') and event.strain('L1') without start and end times, following the official PyCBC catalog documentation and code examples (see Tutorial: Catalog Data and Visualization & Signal Processing).\n- The desired time window is extracted using the .time_slice(start, end) method on the returned TimeSeries, which is the correct and robust way to select a window.\n- When saving the strain data, we use .numpy() to convert the TimeSeries to a numpy array, ensuring compatibility with np.save.\n- All plotting and time array logic is updated to use the windowed strain data.\n- This approach is robust to the available data segment and avoids the error \"no strain data is available as requested for GW150914\".\n- The fix is directly guided by the code examples and documentation in the database, ensuring compatibility and correctness.",
+        "database_sources": [
+          "Chisq/chi_squared Import - DEFINITIVE FIX",
+          "PyCBC PSD Welch Segmentation - Data-Driven",
+          "power_chisq Import - DEFINITIVE LOCATION",
+          "PSD resize() returns None - In-place operation",
+          "PyCBC TimeSeries - NO from_gwpy_timeseries",
+          "Tutorial: Catalog Data",
+          "Tutorial: Visualization & Signal Processing",
+          "API: pycbc_catalog",
+          "URL Reference: Catalog Data",
+          "Comprehensive GW150914 Matched Filter and Subtraction Example",
+          "Common PyCBC Import Errors and Solutions",
+          "URL Reference: pycbc_catalog",
+          "Tutorial: Waveform Matched Filter"
+        ],
+        "confidence": "high",
+        "timestamp": "2025-11-07T12:06:36.917435"
+      }
+    ],
+    "final_integration_result": {
+      "integration_analysis": "The workflow consists of two main tasks: (1) downloading the GW150914 strain data for both Hanford (H1) and Livingston (L1) detectors using PyCBC, and (2) plotting the strain versus time for both detectors using matplotlib. Task 2 depends on the successful completion of Task 1, as it requires the strain data and event time variables produced in Task 1.\n\nKey integration points:\n- All necessary imports are consolidated at the top, avoiding duplicates.\n- Variables (`strain_H1`, `strain_L1`, `event_time`) are passed directly from Task 1 to Task 2.\n- Comprehensive error handling is included for both data download and plotting.\n- Progress print statements are added for user feedback.\n- The script saves the downloaded strain data as NumPy `.npy` files for reproducibility and the final plot as a `.png` file.\n- The script is ready to execute as a standalone Python file.",
+      "integrated_script": "# ==========================\n# GW150914 Strain Data Download and Visualization\n# ==========================\n\n# ---- Imports ----\nfrom pycbc.catalog import Merger\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport os\nimport sys\n\n# ---- Configuration ----\nEVENT_NAME = \"GW150914\"\nWINDOW_DURATION = 4  # seconds\nOUTPUT_DIR = \"gw150914_outputs\"\nos.makedirs(OUTPUT_DIR, exist_ok=True)\n\n# ---- Task 1: Download Strain Data ----\nprint(\"=\"*60)\nprint(f\"Step 1: Downloading strain data for event {EVENT_NAME}\")\nprint(\"=\"*60)\n\ntry:\n    print(f\"Fetching event information for {EVENT_NAME}...\")\n    event = Merger(EVENT_NAME)\n    event_time = event.time\n    print(f\"Event time (GPS): {event_time}\")\n\n    # Download Hanford (H1) strain data (default segment)\n    print(\"Downloading Hanford (H1) strain data...\")\n    strain_H1 = event.strain('H1')\n    print(f\"Hanford (H1) strain data loaded: {len(strain_H1)} samples.\")\n\n    # Download Livingston (L1) strain data (default segment)\n    print(\"Downloading Livingston (L1) strain data...\")\n    strain_L1 = event.strain('L1')\n    print(f\"Livingston (L1) strain data loaded: {len(strain_L1)} samples.\")\n\n    # Slice to desired window around event_time\n    start_time = event_time - WINDOW_DURATION / 2\n    end_time = event_time + WINDOW_DURATION / 2\n    strain_H1_win = strain_H1.time_slice(start_time, end_time)\n    strain_L1_win = strain_L1.time_slice(start_time, end_time)\n\n    # Save strain data for reproducibility (save as numpy arrays)\n    np.save(os.path.join(OUTPUT_DIR, \"strain_H1.npy\"), strain_H1_win.numpy())\n    np.save(os.path.join(OUTPUT_DIR, \"strain_L1.npy\"), strain_L1_win.numpy())\n    with open(os.path.join(OUTPUT_DIR, \"event_time.txt\"), \"w\") as f:\n        f.write(str(event_time))\n\n    print(f\"Strain data and event time saved in '{OUTPUT_DIR}'.\")\n\nexcept Exception as e:\n    print(f\"Error occurred while downloading strain data: {e}\")\n    print(\"Exiting script.\")\n    sys.exit(1)\n\n# ---- Task 2: Plot Strain vs Time ----\nprint(\"\\n\" + \"=\"*60)\nprint(\"Step 2: Plotting strain vs time for H1 and L1\")\nprint(\"=\"*60)\n\ntry:\n    print(\"Preparing time arrays for plotting...\")\n    # Get sample rate and start time from strain objects\n    sr_H1 = strain_H1_win.sample_rate\n    sr_L1 = strain_L1_win.sample_rate\n    t0_H1 = strain_H1_win.start_time\n    t0_L1 = strain_L1_win.start_time\n\n    # Create time arrays relative to event time\n    times_H1 = np.arange(len(strain_H1_win)) / sr_H1 + float(t0_H1) - float(event_time)\n    times_L1 = np.arange(len(strain_L1_win)) / sr_L1 + float(t0_L1) - float(event_time)\n\n    print(\"Plotting strain data for H1 and L1...\")\n    plt.figure(figsize=(12, 6))\n\n    # Plot H1\n    plt.subplot(2, 1, 1)\n    plt.plot(times_H1, strain_H1_win, label='Hanford (H1)', color='C0')\n    plt.axvline(0, color='k', linestyle='--', label='Event time')\n    plt.xlabel('Time (s) relative to event')\n    plt.ylabel('Strain')\n    plt.title('GW150914 Strain - Hanford (H1)')\n    plt.legend()\n    plt.grid(True)\n\n    # Plot L1\n    plt.subplot(2, 1, 2)\n    plt.plot(times_L1, strain_L1_win, label='Livingston (L1)', color='C1')\n    plt.axvline(0, color='k', linestyle='--', label='Event time')\n    plt.xlabel('Time (s) relative to event')\n    plt.ylabel('Strain')\n    plt.title('GW150914 Strain - Livingston (L1)')\n    plt.legend()\n    plt.grid(True)\n\n    plt.tight_layout()\n    plot_path = os.path.join(OUTPUT_DIR, \"GW150914_strain_plot.png\")\n    plt.savefig(plot_path)\n    plt.show()\n    print(f\"Plotting complete. Plot saved as '{plot_path}'.\")\n\nexcept Exception as e:\n    print(f\"Error during plotting: {e}\")\n    print(\"Exiting script.\")\n    sys.exit(2)\n\nprint(\"\\nAll steps completed successfully.\")",
+      "execution_notes": "- The script will create a directory named `gw150914_outputs` in the current working directory to store the strain data (`strain_H1.npy`, `strain_L1.npy`), the event time (`event_time.txt`), and the final plot (`GW150914_strain_plot.png`).\n- The script requires internet access to download data from the LIGO Open Science Center via PyCBC.\n- If any error occurs during data download or plotting, the script will print an error message and exit with a non-zero status.\n- The plot will be displayed interactively and also saved as a PNG file for later reference.\n- The script is ready to run as-is, provided the required packages are installed and available in your Python environment.",
+      "original_query": "Download the strain data for GW150914 event and plot the strain vs time plot.",
+      "tasks_integrated": 2,
+      "task_details": [
+        {
+          "task_id": "task_1_data_loading",
+          "description": "Download the strain time series data for GW150914 from the LIGO Open Science Center for both Hanford (H1) and Livingston (L1) detectors.",
+          "code_length": 1234
+        },
+        {
+          "task_id": "task_2_visualization",
+          "description": "Plot the strain versus time for the GW150914 event for each detector.",
+          "code_length": 1553
+        }
+      ],
+      "available_packages": {
+        "gwpy": "3.0.13",
+        "astropy": "6.1.7",
+        "numpy": "2.2.6",
+        "scipy": "1.15.3",
+        "matplotlib": "3.10.6",
+        "h5py": "3.14.0",
+        "pycbc": "2.9.0",
+        "torch": "2.8.0"
+      },
+      "raw_llm_response": "INTEGRATION ANALYSIS:\nThe workflow consists of two main tasks: (1) downloading the GW150914 strain data for both Hanford (H1) and Livingston (L1) detectors using PyCBC, and (2) plotting the strain versus time for both detectors using matplotlib. Task 2 depends on the successful completion of Task 1, as it requires the strain data and event time variables produced in Task 1.\n\nKey integration points:\n- All necessary imports are consolidated at the top, avoiding duplicates.\n- Variables (`strain_H1`, `strain_L1`, `event_time`) are passed directly from Task 1 to Task 2.\n- Comprehensive error handling is included for both data download and plotting.\n- Progress print statements are added for user feedback.\n- The script saves the downloaded strain data as NumPy `.npy` files for reproducibility and the final plot as a `.png` file.\n- The script is ready to execute as a standalone Python file.\n\nINTEGRATED SCRIPT:\n```python\n# ==========================\n# GW150914 Strain Data Download and Visualization\n# ==========================\n\n# ---- Imports ----\nfrom pycbc.catalog import Merger\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport os\nimport sys\n\n# ---- Configuration ----\nEVENT_NAME = \"GW150914\"\nWINDOW_DURATION = 4  # seconds\nOUTPUT_DIR = \"gw150914_outputs\"\nos.makedirs(OUTPUT_DIR, exist_ok=True)\n\n# ---- Task 1: Download Strain Data ----\nprint(\"=\"*60)\nprint(f\"Step 1: Downloading strain data for event {EVENT_NAME}\")\nprint(\"=\"*60)\n\ntry:\n    print(f\"Fetching event information for {EVENT_NAME}...\")\n    event = Merger(EVENT_NAME)\n    event_time = event.time\n    print(f\"Event time (GPS): {event_time}\")\n\n    start_time = event_time - WINDOW_DURATION / 2\n    end_time = event_time + WINDOW_DURATION / 2\n\n    # Download Hanford (H1) strain data\n    print(\"Downloading Hanford (H1) strain data...\")\n    strain_H1 = event.strain('H1', start_time, end_time)\n    print(f\"Hanford (H1) strain data loaded: {len(strain_H1)} samples.\")\n\n    # Download Livingston (L1) strain data\n    print(\"Downloading Livingston (L1) strain data...\")\n    strain_L1 = event.strain('L1', start_time, end_time)\n    print(f\"Livingston (L1) strain data loaded: {len(strain_L1)} samples.\")\n\n    # Save strain data for reproducibility\n    np.save(os.path.join(OUTPUT_DIR, \"strain_H1.npy\"), strain_H1)\n    np.save(os.path.join(OUTPUT_DIR, \"strain_L1.npy\"), strain_L1)\n    with open(os.path.join(OUTPUT_DIR, \"event_time.txt\"), \"w\") as f:\n        f.write(str(event_time))\n\n    print(f\"Strain data and event time saved in '{OUTPUT_DIR}'.\")\n\nexcept Exception as e:\n    print(f\"Error occurred while downloading strain data: {e}\")\n    print(\"Exiting script.\")\n    sys.exit(1)\n\n# ---- Task 2: Plot Strain vs Time ----\nprint(\"\\n\" + \"=\"*60)\nprint(\"Step 2: Plotting strain vs time for H1 and L1\")\nprint(\"=\"*60)\n\ntry:\n    print(\"Preparing time arrays for plotting...\")\n    # Get sample rate and start time from strain objects\n    sr_H1 = strain_H1.sample_rate\n    sr_L1 = strain_L1.sample_rate\n    t0_H1 = strain_H1.start_time\n    t0_L1 = strain_L1.start_time\n\n    # Create time arrays relative to event time\n    times_H1 = np.arange(len(strain_H1)) / sr_H1 + float(t0_H1) - float(event_time)\n    times_L1 = np.arange(len(strain_L1)) / sr_L1 + float(t0_L1) - float(event_time)\n\n    print(\"Plotting strain data for H1 and L1...\")\n    plt.figure(figsize=(12, 6))\n\n    # Plot H1\n    plt.subplot(2, 1, 1)\n    plt.plot(times_H1, strain_H1, label='Hanford (H1)', color='C0')\n    plt.axvline(0, color='k', linestyle='--', label='Event time')\n    plt.xlabel('Time (s) relative to event')\n    plt.ylabel('Strain')\n    plt.title('GW150914 Strain - Hanford (H1)')\n    plt.legend()\n    plt.grid(True)\n\n    # Plot L1\n    plt.subplot(2, 1, 2)\n    plt.plot(times_L1, strain_L1, label='Livingston (L1)', color='C1')\n    plt.axvline(0, color='k', linestyle='--', label='Event time')\n    plt.xlabel('Time (s) relative to event')\n    plt.ylabel('Strain')\n    plt.title('GW150914 Strain - Livingston (L1)')\n    plt.legend()\n    plt.grid(True)\n\n    plt.tight_layout()\n    plot_path = os.path.join(OUTPUT_DIR, \"GW150914_strain_plot.png\")\n    plt.savefig(plot_path)\n    plt.show()\n    print(f\"Plotting complete. Plot saved as '{plot_path}'.\")\n\nexcept Exception as e:\n    print(f\"Error during plotting: {e}\")\n    print(\"Exiting script.\")\n    sys.exit(2)\n\nprint(\"\\nAll steps completed successfully.\")\n```\n\nEXECUTION NOTES:\n- The script will create a directory named `gw150914_outputs` in the current working directory to store the strain data (`strain_H1.npy`, `strain_L1.npy`), the event time (`event_time.txt`), and the final plot (`GW150914_strain_plot.png`).\n- The script requires internet access to download data from the LIGO Open Science Center via PyCBC.\n- If any error occurs during data download or plotting, the script will print an error message and exit with a non-zero status.\n- The plot will be displayed interactively and also saved as a PNG file for later reference.\n- The script is ready to run as-is, provided the required packages are installed and available in your Python environment.",
+      "timestamp": "2025-11-07T12:05:55.377773",
+      "debug_info": {
+        "attempt": 1,
+        "previous_error": "Script errors detected in output",
+        "fix_applied": "[DATABASE-GUIDED] - The main fix is to call event.strain('H1') and event.strain('L1') without start and end times, following the official PyCBC catalog documentation and code examples (see Tutorial: Catalog Data and Visualization & Signal Processing).\n- The desired time window is extracted using the .time_slice(start, end) method on the returned TimeSeries, which is the correct and robust way to select a window.\n- When saving the strain data, we use .numpy() to convert the TimeSeries to a numpy array, ensuring compatibility with np.save.\n- All plotting and time array logic is updated to use the windowed strain data.\n- This approach is robust to the available data segment and avoids the error \"no strain data is available as requested for GW150914\".\n- The fix is directly guided by the code examples and documentation in the database, ensuring compatibility and correctness."
+      }
+    },
+    "final_execution_result": {
+      "success": true,
+      "return_code": 0,
+      "stdout": "============================================================\nStep 1: Downloading strain data for event GW150914\n============================================================\nFetching event information for GW150914...\nEvent time (GPS): 1126259462.4\nDownloading Hanford (H1) strain data...\nHanford (H1) strain data loaded: 131072 samples.\nDownloading Livingston (L1) strain data...\nLivingston (L1) strain data loaded: 131072 samples.\nStrain data and event time saved in 'gw150914_outputs'.\n\n============================================================\nStep 2: Plotting strain vs time for H1 and L1\n============================================================\nPreparing time arrays for plotting...\nPlotting strain data for H1 and L1...\nPlotting complete. Plot saved as 'gw150914_outputs/GW150914_strain_plot.png'.\n\nAll steps completed successfully.\n",
+      "stderr": "/home/sr/miniconda3/envs/gravagent/lib/python3.10/site-packages/pykerr/qnm.py:2: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.\n  import pkg_resources\n",
+      "execution_time": 7.547619,
+      "script_path": "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/integrated_analysis_20251107_120636.py",
+      "execution_directory": "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script",
+      "has_runtime_errors": false,
+      "error_indicators": [],
+      "timestamp": "2025-11-07T12:06:44.465819",
+      "output_files": [
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_L1_strain.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_whitened_bandpassed_strain_zoom.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_filtered_strain.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_H1_filtered_time_domain.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_H1_filtered.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/l1_strain.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/h1_whiten.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw_analysis_outputs",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw170817_raw_strain.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw150914_analysis_results",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_L1_raw.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw150914_outputs",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/l1_filtered.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/reduced_template_bank.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_H1_times.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_L1_filtered_time_domain.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_L1_filtered.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw150914_matched_filter_results",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/L1_GW170608_zoomed_plots.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/h1_strain.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/strain_H1_raw.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/matched_filter_results.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/filtered_strain_H1.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/results",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/l1_whiten.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_H1_raw.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/template_bank_keys.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_strain_plot.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/psds.npz",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/failed_templates.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/H1_GW170608_zoomed_plots.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/templates.npz",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/whitened_strain_H1.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_H1_strain.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/strain_L1_raw.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw170817_preprocessed_strain.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/h1_filtered.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_L1_times.npy"
+      ]
+    },
+    "timestamp": "2025-11-07T12:06:44.466253"
+  },
+  "token_usage": {
+    "scientific_interpreter": 996,
+    "data_analyst": 3790,
+    "executor": 2899,
+    "debugger": 4506,
+    "memory_agent": 0,
+    "total": 12191
+  }
+}

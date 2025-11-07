@@ -25,8 +25,8 @@ class RAGCapableDatabase:
         self.session.headers.update({'User-Agent': 'Mozilla/5.0'})
         
         # Your local LLM configuration
-        self.api_key = "sk-ev4v3VCbmx15mXTKC_c30w"
-        self.base_url = "http://131.220.150.238:8080"
+        self.api_key = os.environ.get("OPENAI_API_KEY")
+        self.base_url = os.environ.get("OPENAI_BASE_URL")
         self.embedding_model = "openai/text-embedding-3-large"
         
         # Test the embedding endpoint first

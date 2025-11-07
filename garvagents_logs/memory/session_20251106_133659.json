@@ -1,0 +1,235 @@
+{
+  "session_id": "20251106_133659",
+  "timestamp": "2025-11-06T13:40:14.856114",
+  "original_query": "Download the strain data for GW150914 event using  TimeSeries.fetch_open_data(). Then whiten the data. Then plot the strain vs time graph of this whitened data.",
+  "status": "success",
+  "pipeline_complete": true,
+  "scientific_interpretation": {
+    "understanding": "The user wants to download the publicly available LIGO strain data for the GW150914 event, whiten the data to flatten the noise spectrum, and then plot the whitened strain as a function of time.",
+    "knowledge_context": "GW150914 is the first detected gravitational wave event, observed by LIGO. Strain data for this event is available from the LIGO Open Science Center (LOSC). Whitening is a standard preprocessing step in gravitational wave data analysis to equalize the noise across frequencies, making signals more visible. Visualization of the whitened strain vs time is a common way to inspect the data and identify the gravitational wave signal.",
+    "scientific_context": "Whitening the data is essential for gravitational wave signal identification because it removes the frequency-dependent noise structure of the detectors, making transient signals like GW150914 more apparent. Visualizing the whitened strain helps confirm the presence and morphology of the event in the time domain.",
+    "expected_outcomes": "We will obtain a plot of whitened strain versus time for GW150914, allowing visual inspection of the gravitational wave signal and assessment of data quality after whitening.",
+    "tasks_generated": 3,
+    "confidence_score": 0.8
+  },
+  "code_generation": {
+    "tasks_processed": 3,
+    "total_documentation_sources": 3,
+    "code_results": [
+      {
+        "task_id": "task_1_load_strain",
+        "task_description": "Download the strain data for GW150914 using GWpy's TimeSeries.fetch_open_data() function.",
+        "analysis": "The task is to download the strain data for the GW150914 event using GWpy's TimeSeries.fetch_open_data() function. The documentation confirms that this function can fetch data from the LIGO Open Science Center for both Hanford (H1) and Livingston (L1) detectors. The event GW150914 occurred at GPS time 1126259462. The typical approach is to fetch a window of data around the event (e.g., 4 seconds before and after). The code will include error handling, progress print statements, and save the resulting TimeSeries objects for further analysis.",
+        "code": "from gwpy.timeseries import TimeSeries\n\n# Define GW150914 event time and data segment\ngw150914_gps = 1126259462  # GW150914 GPS time\nduration = 8               # seconds of data to fetch\nstart_time = gw150914_gps - 4\nend_time = gw150914_gps + 4\n\n# Prepare output variables\nstrain_H1 = None\nstrain_L1 = None\n\nprint(f\"Fetching strain data for GW150914 from {start_time} to {end_time}...\")\n\ntry:\n    print(\"Downloading Hanford (H1) data...\")\n    strain_H1 = TimeSeries.fetch_open_data('H1', start_time, end_time, cache=True)\n    print(\"Hanford (H1) data downloaded successfully.\")\nexcept Exception as e:\n    print(f\"Error downloading Hanford (H1) data: {e}\")\n\ntry:\n    print(\"Downloading Livingston (L1) data...\")\n    strain_L1 = TimeSeries.fetch_open_data('L1', start_time, end_time, cache=True)\n    print(\"Livingston (L1) data downloaded successfully.\")\nexcept Exception as e:\n    print(f\"Error downloading Livingston (L1) data: {e}\")\n\n# The strain_H1 and strain_L1 variables now hold the data for further analysis",
+        "explanation": "This code fetches 8 seconds of strain data centered on the GW150914 event for both the Hanford (H1) and Livingston (L1) detectors using GWpy's TimeSeries.fetch_open_data(). It includes error handling for each detector and prints progress updates. The resulting TimeSeries objects (strain_H1 and strain_L1) are stored for use in subsequent analysis steps.",
+        "documentation_used": 1,
+        "memory_insights_used": true,
+        "documentation_sources": [
+          "RAG_synthesized"
+        ],
+        "available_packages": {
+          "gwpy": "3.0.13",
+          "astropy": "6.1.7",
+          "numpy": "2.2.6",
+          "scipy": "1.15.3",
+          "matplotlib": "3.10.6",
+          "h5py": "3.14.0",
+          "pycbc": "2.9.0",
+          "torch": "2.8.0"
+        },
+        "packages_used_in_query": 8,
+        "raw_response": "ANALYSIS:\nThe task is to download the strain data for the GW150914 event using GWpy's TimeSeries.fetch_open_data() function. The documentation confirms that this function can fetch data from the LIGO Open Science Center for both Hanford (H1) and Livingston (L1) detectors. The event GW150914 occurred at GPS time 1126259462. The typical approach is to fetch a window of data around the event (e.g., 4 seconds before and after). The code will include error handling, progress print statements, and save the resulting TimeSeries objects for further analysis.\n\nCODE:\n```python\nfrom gwpy.timeseries import TimeSeries\n\n# Define GW150914 event time and data segment\ngw150914_gps = 1126259462  # GW150914 GPS time\nduration = 8               # seconds of data to fetch\nstart_time = gw150914_gps - 4\nend_time = gw150914_gps + 4\n\n# Prepare output variables\nstrain_H1 = None\nstrain_L1 = None\n\nprint(f\"Fetching strain data for GW150914 from {start_time} to {end_time}...\")\n\ntry:\n    print(\"Downloading Hanford (H1) data...\")\n    strain_H1 = TimeSeries.fetch_open_data('H1', start_time, end_time, cache=True)\n    print(\"Hanford (H1) data downloaded successfully.\")\nexcept Exception as e:\n    print(f\"Error downloading Hanford (H1) data: {e}\")\n\ntry:\n    print(\"Downloading Livingston (L1) data...\")\n    strain_L1 = TimeSeries.fetch_open_data('L1', start_time, end_time, cache=True)\n    print(\"Livingston (L1) data downloaded successfully.\")\nexcept Exception as e:\n    print(f\"Error downloading Livingston (L1) data: {e}\")\n\n# The strain_H1 and strain_L1 variables now hold the data for further analysis\n```\n\nEXPLANATION:\nThis code fetches 8 seconds of strain data centered on the GW150914 event for both the Hanford (H1) and Livingston (L1) detectors using GWpy's TimeSeries.fetch_open_data(). It includes error handling for each detector and prints progress updates. The resulting TimeSeries objects (strain_H1 and strain_L1) are stored for use in subsequent analysis steps.",
+        "timestamp": "2025-11-06T13:37:29.659279",
+        "confidence_score": 0.5,
+        "requires_human_review": true
+      },
+      {
+        "task_id": "task_2_whiten_data",
+        "task_description": "Whiten the downloaded strain data to flatten the noise spectrum.",
+        "analysis": "The task is to whiten the strain data previously loaded for GW150914 using GWpy's TimeSeries.whiten() method. Whitening is a standard preprocessing step that flattens the noise spectrum, making gravitational-wave signals more apparent. The strain data for Hanford (H1) and Livingston (L1) are assumed to be stored in the variables strain_H1 and strain_L1, as produced by the previous task. The code will apply the whiten() method to each TimeSeries, handle any errors, and provide progress updates. The whitened data will be stored in new variables for further analysis.",
+        "code": "# Assumes strain_H1 and strain_L1 are already loaded TimeSeries objects\n\nwhitened_H1 = None\nwhitened_L1 = None\n\nprint(\"Starting whitening of strain data...\")\n\ntry:\n    if strain_H1 is not None:\n        print(\"Whitening Hanford (H1) strain data...\")\n        whitened_H1 = strain_H1.whiten()\n        print(\"Hanford (H1) strain data whitened successfully.\")\n    else:\n        print(\"Hanford (H1) strain data not available. Skipping.\")\nexcept Exception as e:\n    print(f\"Error whitening Hanford (H1) data: {e}\")\n\ntry:\n    if strain_L1 is not None:\n        print(\"Whitening Livingston (L1) strain data...\")\n        whitened_L1 = strain_L1.whiten()\n        print(\"Livingston (L1) strain data whitened successfully.\")\n    else:\n        print(\"Livingston (L1) strain data not available. Skipping.\")\nexcept Exception as e:\n    print(f\"Error whitening Livingston (L1) data: {e}\")\n\n# The whitened_H1 and whitened_L1 variables now hold the whitened strain data",
+        "explanation": "This code applies the GWpy TimeSeries.whiten() method to the previously loaded strain data for both Hanford and Livingston detectors. It checks if the original data is available, handles errors gracefully, and prints progress updates. The whitened TimeSeries objects (whitened_H1 and whitened_L1) are stored for use in subsequent analysis steps.",
+        "documentation_used": 1,
+        "memory_insights_used": true,
+        "documentation_sources": [
+          "RAG_synthesized"
+        ],
+        "available_packages": {
+          "gwpy": "3.0.13",
+          "astropy": "6.1.7",
+          "numpy": "2.2.6",
+          "scipy": "1.15.3",
+          "matplotlib": "3.10.6",
+          "h5py": "3.14.0",
+          "pycbc": "2.9.0",
+          "torch": "2.8.0"
+        },
+        "packages_used_in_query": 8,
+        "raw_response": "ANALYSIS:\nThe task is to whiten the strain data previously loaded for GW150914 using GWpy's TimeSeries.whiten() method. Whitening is a standard preprocessing step that flattens the noise spectrum, making gravitational-wave signals more apparent. The strain data for Hanford (H1) and Livingston (L1) are assumed to be stored in the variables strain_H1 and strain_L1, as produced by the previous task. The code will apply the whiten() method to each TimeSeries, handle any errors, and provide progress updates. The whitened data will be stored in new variables for further analysis.\n\nCODE:\n```python\n# Assumes strain_H1 and strain_L1 are already loaded TimeSeries objects\n\nwhitened_H1 = None\nwhitened_L1 = None\n\nprint(\"Starting whitening of strain data...\")\n\ntry:\n    if strain_H1 is not None:\n        print(\"Whitening Hanford (H1) strain data...\")\n        whitened_H1 = strain_H1.whiten()\n        print(\"Hanford (H1) strain data whitened successfully.\")\n    else:\n        print(\"Hanford (H1) strain data not available. Skipping.\")\nexcept Exception as e:\n    print(f\"Error whitening Hanford (H1) data: {e}\")\n\ntry:\n    if strain_L1 is not None:\n        print(\"Whitening Livingston (L1) strain data...\")\n        whitened_L1 = strain_L1.whiten()\n        print(\"Livingston (L1) strain data whitened successfully.\")\n    else:\n        print(\"Livingston (L1) strain data not available. Skipping.\")\nexcept Exception as e:\n    print(f\"Error whitening Livingston (L1) data: {e}\")\n\n# The whitened_H1 and whitened_L1 variables now hold the whitened strain data\n```\n\nEXPLANATION:\nThis code applies the GWpy TimeSeries.whiten() method to the previously loaded strain data for both Hanford and Livingston detectors. It checks if the original data is available, handles errors gracefully, and prints progress updates. The whitened TimeSeries objects (whitened_H1 and whitened_L1) are stored for use in subsequent analysis steps.",
+        "timestamp": "2025-11-06T13:37:46.042641",
+        "confidence_score": 0.3,
+        "requires_human_review": true
+      },
+      {
+        "task_id": "task_3_plot_whitened_strain",
+        "task_description": "Plot the whitened strain data as a function of time.",
+        "analysis": "The task is to plot the whitened strain data as a function of time, using either GWpy's plotting utilities or matplotlib. The whitened strain data for Hanford (whitened_H1) and Livingston (whitened_L1) are assumed to be available from the previous step. GWpy's TimeSeries objects have a .plot() method that returns a matplotlib Figure, which can be further customized. The code will check for the existence of the whitened data, plot each available detector's data, label axes, add titles, and handle errors gracefully. The plots will be displayed using matplotlib.",
+        "code": "import matplotlib.pyplot as plt\n\nprint(\"Starting plot of whitened strain data...\")\n\ndef plot_whitened_strain(whitened_strain, detector_label):\n    try:\n        print(f\"Plotting whitened strain for {detector_label}...\")\n        fig = whitened_strain.plot()\n        ax = fig.gca()\n        ax.set_title(f\"Whitened Strain Data - {detector_label}\")\n        ax.set_xlabel(\"Time (s)\")\n        ax.set_ylabel(\"Whitened Strain\")\n        plt.show()\n        print(f\"Plot for {detector_label} displayed successfully.\")\n    except Exception as e:\n        print(f\"Error plotting whitened strain for {detector_label}: {e}\")\n\nif 'whitened_H1' in globals() and whitened_H1 is not None:\n    plot_whitened_strain(whitened_H1, \"Hanford (H1)\")\nelse:\n    print(\"Whitened Hanford (H1) data not available. Skipping plot.\")\n\nif 'whitened_L1' in globals() and whitened_L1 is not None:\n    plot_whitened_strain(whitened_L1, \"Livingston (L1)\")\nelse:\n    print(\"Whitened Livingston (L1) data not available. Skipping plot.\")",
+        "explanation": "This code checks for the presence of the whitened strain data for each detector. If available, it uses GWpy's built-in .plot() method to create a time series plot, customizes the title and axis labels, and displays the plot using matplotlib. Errors are caught and reported. The expected output is one or two plots (depending on data availability), each showing whitened strain amplitude versus time for the respective detector.",
+        "documentation_used": 1,
+        "memory_insights_used": true,
+        "documentation_sources": [
+          "RAG_synthesized"
+        ],
+        "available_packages": {
+          "gwpy": "3.0.13",
+          "astropy": "6.1.7",
+          "numpy": "2.2.6",
+          "scipy": "1.15.3",
+          "matplotlib": "3.10.6",
+          "h5py": "3.14.0",
+          "pycbc": "2.9.0",
+          "torch": "2.8.0"
+        },
+        "packages_used_in_query": 8,
+        "raw_response": "ANALYSIS:\nThe task is to plot the whitened strain data as a function of time, using either GWpy's plotting utilities or matplotlib. The whitened strain data for Hanford (whitened_H1) and Livingston (whitened_L1) are assumed to be available from the previous step. GWpy's TimeSeries objects have a .plot() method that returns a matplotlib Figure, which can be further customized. The code will check for the existence of the whitened data, plot each available detector's data, label axes, add titles, and handle errors gracefully. The plots will be displayed using matplotlib.\n\nCODE:\n```python\nimport matplotlib.pyplot as plt\n\nprint(\"Starting plot of whitened strain data...\")\n\ndef plot_whitened_strain(whitened_strain, detector_label):\n    try:\n        print(f\"Plotting whitened strain for {detector_label}...\")\n        fig = whitened_strain.plot()\n        ax = fig.gca()\n        ax.set_title(f\"Whitened Strain Data - {detector_label}\")\n        ax.set_xlabel(\"Time (s)\")\n        ax.set_ylabel(\"Whitened Strain\")\n        plt.show()\n        print(f\"Plot for {detector_label} displayed successfully.\")\n    except Exception as e:\n        print(f\"Error plotting whitened strain for {detector_label}: {e}\")\n\nif 'whitened_H1' in globals() and whitened_H1 is not None:\n    plot_whitened_strain(whitened_H1, \"Hanford (H1)\")\nelse:\n    print(\"Whitened Hanford (H1) data not available. Skipping plot.\")\n\nif 'whitened_L1' in globals() and whitened_L1 is not None:\n    plot_whitened_strain(whitened_L1, \"Livingston (L1)\")\nelse:\n    print(\"Whitened Livingston (L1) data not available. Skipping plot.\")\n```\n\nEXPLANATION:\nThis code checks for the presence of the whitened strain data for each detector. If available, it uses GWpy's built-in .plot() method to create a time series plot, customizes the title and axis labels, and displays the plot using matplotlib. Errors are caught and reported. The expected output is one or two plots (depending on data availability), each showing whitened strain amplitude versus time for the respective detector.",
+        "timestamp": "2025-11-06T13:38:08.877809",
+        "confidence_score": 0.5,
+        "requires_human_review": true
+      }
+    ],
+    "average_confidence": 0.43333333333333335
+  },
+  "script_execution": {
+    "session_id": "20251106_133659",
+    "status": "success",
+    "original_query": "Download the strain data for GW150914 event using  TimeSeries.fetch_open_data(). Then whiten the data. Then plot the strain vs time graph of this whitened data.",
+    "integration_result": {
+      "integration_analysis": "The three tasks form a clear, linear workflow:\n1. **Task 1** fetches the GW150914 strain data for both Hanford (H1) and Livingston (L1) detectors using GWpy's `TimeSeries.fetch_open_data()`.\n2. **Task 2** whitens the strain data using the `.whiten()` method, producing new whitened time series for each detector.\n3. **Task 3** plots the whitened strain data as a function of time for each detector.\n\n**Integration Approach:**\n- All necessary imports (`gwpy.timeseries.TimeSeries` and `matplotlib.pyplot`) are consolidated at the top.\n- Variables are passed directly between tasks (e.g., `strain_H1` \u2192 `whitened_H1`).\n- Error handling is preserved and enhanced for robustness.\n- Progress print statements are included at each major step.\n- Plots are displayed for each detector if data is available.\n- Intermediate results (strain and whitened data) are saved to disk as `.txt` files for reproducibility and further analysis.\n- The script is ready to execute as a standalone Python file.",
+      "integrated_script": "# =========================\n# GW150914 Strain Analysis: Download, Whiten, and Plot\n# =========================\n\n# --- Imports ---\nfrom gwpy.timeseries import TimeSeries\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport os\n\n# --- Configuration ---\ngw150914_gps = 1126259462  # GW150914 GPS time\nduration = 8               # seconds of data to fetch\nstart_time = gw150914_gps - 4\nend_time = gw150914_gps + 4\n\noutput_dir = \"gw150914_results\"\nos.makedirs(output_dir, exist_ok=True)\n\n# --- Task 1: Download Strain Data ---\nprint(\"=\"*60)\nprint(f\"Fetching strain data for GW150914 from {start_time} to {end_time}...\")\n\nstrain_H1 = None\nstrain_L1 = None\n\ntry:\n    print(\"Downloading Hanford (H1) data...\")\n    strain_H1 = TimeSeries.fetch_open_data('H1', start_time, end_time, cache=True)\n    print(\"Hanford (H1) data downloaded successfully.\")\n    # Save raw data\n    np.savetxt(os.path.join(output_dir, \"strain_H1.txt\"),\n               np.column_stack((strain_H1.times.value, strain_H1.value)),\n               header=\"Time(s) Strain\")\n    print(\"Hanford (H1) strain data saved to strain_H1.txt.\")\nexcept Exception as e:\n    print(f\"Error downloading Hanford (H1) data: {e}\")\n\ntry:\n    print(\"Downloading Livingston (L1) data...\")\n    strain_L1 = TimeSeries.fetch_open_data('L1', start_time, end_time, cache=True)\n    print(\"Livingston (L1) data downloaded successfully.\")\n    # Save raw data\n    np.savetxt(os.path.join(output_dir, \"strain_L1.txt\"),\n               np.column_stack((strain_L1.times.value, strain_L1.value)),\n               header=\"Time(s) Strain\")\n    print(\"Livingston (L1) strain data saved to strain_L1.txt.\")\nexcept Exception as e:\n    print(f\"Error downloading Livingston (L1) data: {e}\")\n\n# --- Task 2: Whiten the Data ---\nprint(\"=\"*60)\nprint(\"Starting whitening of strain data...\")\n\nwhitened_H1 = None\nwhitened_L1 = None\n\ntry:\n    if strain_H1 is not None:\n        print(\"Whitening Hanford (H1) strain data...\")\n        whitened_H1 = strain_H1.whiten()\n        print(\"Hanford (H1) strain data whitened successfully.\")\n        # Save whitened data\n        np.savetxt(os.path.join(output_dir, \"whitened_H1.txt\"),\n                   np.column_stack((whitened_H1.times.value, whitened_H1.value)),\n                   header=\"Time(s) Whitened_Strain\")\n        print(\"Whitened Hanford (H1) data saved to whitened_H1.txt.\")\n    else:\n        print(\"Hanford (H1) strain data not available. Skipping whitening.\")\nexcept Exception as e:\n    print(f\"Error whitening Hanford (H1) data: {e}\")\n\ntry:\n    if strain_L1 is not None:\n        print(\"Whitening Livingston (L1) strain data...\")\n        whitened_L1 = strain_L1.whiten()\n        print(\"Livingston (L1) strain data whitened successfully.\")\n        # Save whitened data\n        np.savetxt(os.path.join(output_dir, \"whitened_L1.txt\"),\n                   np.column_stack((whitened_L1.times.value, whitened_L1.value)),\n                   header=\"Time(s) Whitened_Strain\")\n        print(\"Whitened Livingston (L1) data saved to whitened_L1.txt.\")\n    else:\n        print(\"Livingston (L1) strain data not available. Skipping whitening.\")\nexcept Exception as e:\n    print(f\"Error whitening Livingston (L1) data: {e}\")\n\n# --- Task 3: Plot Whitened Strain ---\nprint(\"=\"*60)\nprint(\"Starting plot of whitened strain data...\")\n\ndef plot_whitened_strain(whitened_strain, detector_label, output_dir):\n    try:\n        print(f\"Plotting whitened strain for {detector_label}...\")\n        fig = whitened_strain.plot()\n        ax = fig.gca()\n        ax.set_title(f\"Whitened Strain Data - {detector_label}\")\n        ax.set_xlabel(\"Time (s)\")\n        ax.set_ylabel(\"Whitened Strain\")\n        plt.tight_layout()\n        plot_filename = os.path.join(output_dir, f\"whitened_{detector_label.replace(' ', '_')}.png\")\n        fig.savefig(plot_filename)\n        print(f\"Plot for {detector_label} saved to {plot_filename}.\")\n        plt.show()\n        print(f\"Plot for {detector_label} displayed successfully.\")\n    except Exception as e:\n        print(f\"Error plotting whitened strain for {detector_label}: {e}\")\n\nif whitened_H1 is not None:\n    plot_whitened_strain(whitened_H1, \"Hanford (H1)\", output_dir)\nelse:\n    print(\"Whitened Hanford (H1) data not available. Skipping plot.\")\n\nif whitened_L1 is not None:\n    plot_whitened_strain(whitened_L1, \"Livingston (L1)\", output_dir)\nelse:\n    print(\"Whitened Livingston (L1) data not available. Skipping plot.\")\n\nprint(\"=\"*60)\nprint(\"GW150914 strain data analysis complete.\")\nprint(f\"All results saved in the '{output_dir}' directory.\")",
+      "execution_notes": "- **Output Directory:** All intermediate and final results (raw and whitened strain data, plots) are saved in the `gw150914_results` directory.\n- **Data Files:** Four `.txt` files will be created: `strain_H1.txt`, `strain_L1.txt`, `whitened_H1.txt`, and `whitened_L1.txt`, each containing time and strain columns.\n- **Plots:** Two PNG files (`whitened_Hanford_(H1).png`, `whitened_Livingston_(L1).png`) will be saved and also displayed interactively.\n- **Error Handling:** If data download or whitening fails for a detector, the script will skip subsequent steps for that detector and print an informative message.\n- **Dependencies:** Requires GWpy, matplotlib, and numpy (all available per your package list).\n- **Execution:** Run as a standalone Python script. Ensure you have internet access for data download and write permissions for the output directory.\n- **Expected Output:** The script will print progress, save data and plots, and display the whitened strain vs. time for both detectors (if data is available).",
+      "original_query": "Download the strain data for GW150914 event using  TimeSeries.fetch_open_data(). Then whiten the data. Then plot the strain vs time graph of this whitened data.",
+      "tasks_integrated": 3,
+      "task_details": [
+        {
+          "task_id": "task_1_load_strain",
+          "description": "Download the strain data for GW150914 using GWpy's TimeSeries.fetch_open_data() function.",
+          "code_length": 1013
+        },
+        {
+          "task_id": "task_2_whiten_data",
+          "description": "Whiten the downloaded strain data to flatten the noise spectrum.",
+          "code_length": 948
+        },
+        {
+          "task_id": "task_3_plot_whitened_strain",
+          "description": "Plot the whitened strain data as a function of time.",
+          "code_length": 993
+        }
+      ],
+      "available_packages": {
+        "gwpy": "3.0.13",
+        "astropy": "6.1.7",
+        "numpy": "2.2.6",
+        "scipy": "1.15.3",
+        "matplotlib": "3.10.6",
+        "h5py": "3.14.0",
+        "pycbc": "2.9.0",
+        "torch": "2.8.0"
+      },
+      "raw_llm_response": "INTEGRATION ANALYSIS:\nThe three tasks form a clear, linear workflow:\n1. **Task 1** fetches the GW150914 strain data for both Hanford (H1) and Livingston (L1) detectors using GWpy's `TimeSeries.fetch_open_data()`.\n2. **Task 2** whitens the strain data using the `.whiten()` method, producing new whitened time series for each detector.\n3. **Task 3** plots the whitened strain data as a function of time for each detector.\n\n**Integration Approach:**\n- All necessary imports (`gwpy.timeseries.TimeSeries` and `matplotlib.pyplot`) are consolidated at the top.\n- Variables are passed directly between tasks (e.g., `strain_H1` \u2192 `whitened_H1`).\n- Error handling is preserved and enhanced for robustness.\n- Progress print statements are included at each major step.\n- Plots are displayed for each detector if data is available.\n- Intermediate results (strain and whitened data) are saved to disk as `.txt` files for reproducibility and further analysis.\n- The script is ready to execute as a standalone Python file.\n\nINTEGRATED SCRIPT:\n```python\n# =========================\n# GW150914 Strain Analysis: Download, Whiten, and Plot\n# =========================\n\n# --- Imports ---\nfrom gwpy.timeseries import TimeSeries\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport os\n\n# --- Configuration ---\ngw150914_gps = 1126259462  # GW150914 GPS time\nduration = 8               # seconds of data to fetch\nstart_time = gw150914_gps - 4\nend_time = gw150914_gps + 4\n\noutput_dir = \"gw150914_results\"\nos.makedirs(output_dir, exist_ok=True)\n\n# --- Task 1: Download Strain Data ---\nprint(\"=\"*60)\nprint(f\"Fetching strain data for GW150914 from {start_time} to {end_time}...\")\n\nstrain_H1 = None\nstrain_L1 = None\n\ntry:\n    print(\"Downloading Hanford (H1) data...\")\n    strain_H1 = TimeSeries.fetch_open_data('H1', start_time, end_time, cache=True)\n    print(\"Hanford (H1) data downloaded successfully.\")\n    # Save raw data\n    np.savetxt(os.path.join(output_dir, \"strain_H1.txt\"),\n               np.column_stack((strain_H1.times.value, strain_H1.value)),\n               header=\"Time(s) Strain\")\n    print(\"Hanford (H1) strain data saved to strain_H1.txt.\")\nexcept Exception as e:\n    print(f\"Error downloading Hanford (H1) data: {e}\")\n\ntry:\n    print(\"Downloading Livingston (L1) data...\")\n    strain_L1 = TimeSeries.fetch_open_data('L1', start_time, end_time, cache=True)\n    print(\"Livingston (L1) data downloaded successfully.\")\n    # Save raw data\n    np.savetxt(os.path.join(output_dir, \"strain_L1.txt\"),\n               np.column_stack((strain_L1.times.value, strain_L1.value)),\n               header=\"Time(s) Strain\")\n    print(\"Livingston (L1) strain data saved to strain_L1.txt.\")\nexcept Exception as e:\n    print(f\"Error downloading Livingston (L1) data: {e}\")\n\n# --- Task 2: Whiten the Data ---\nprint(\"=\"*60)\nprint(\"Starting whitening of strain data...\")\n\nwhitened_H1 = None\nwhitened_L1 = None\n\ntry:\n    if strain_H1 is not None:\n        print(\"Whitening Hanford (H1) strain data...\")\n        whitened_H1 = strain_H1.whiten()\n        print(\"Hanford (H1) strain data whitened successfully.\")\n        # Save whitened data\n        np.savetxt(os.path.join(output_dir, \"whitened_H1.txt\"),\n                   np.column_stack((whitened_H1.times.value, whitened_H1.value)),\n                   header=\"Time(s) Whitened_Strain\")\n        print(\"Whitened Hanford (H1) data saved to whitened_H1.txt.\")\n    else:\n        print(\"Hanford (H1) strain data not available. Skipping whitening.\")\nexcept Exception as e:\n    print(f\"Error whitening Hanford (H1) data: {e}\")\n\ntry:\n    if strain_L1 is not None:\n        print(\"Whitening Livingston (L1) strain data...\")\n        whitened_L1 = strain_L1.whiten()\n        print(\"Livingston (L1) strain data whitened successfully.\")\n        # Save whitened data\n        np.savetxt(os.path.join(output_dir, \"whitened_L1.txt\"),\n                   np.column_stack((whitened_L1.times.value, whitened_L1.value)),\n                   header=\"Time(s) Whitened_Strain\")\n        print(\"Whitened Livingston (L1) data saved to whitened_L1.txt.\")\n    else:\n        print(\"Livingston (L1) strain data not available. Skipping whitening.\")\nexcept Exception as e:\n    print(f\"Error whitening Livingston (L1) data: {e}\")\n\n# --- Task 3: Plot Whitened Strain ---\nprint(\"=\"*60)\nprint(\"Starting plot of whitened strain data...\")\n\ndef plot_whitened_strain(whitened_strain, detector_label, output_dir):\n    try:\n        print(f\"Plotting whitened strain for {detector_label}...\")\n        fig = whitened_strain.plot()\n        ax = fig.gca()\n        ax.set_title(f\"Whitened Strain Data - {detector_label}\")\n        ax.set_xlabel(\"Time (s)\")\n        ax.set_ylabel(\"Whitened Strain\")\n        plt.tight_layout()\n        plot_filename = os.path.join(output_dir, f\"whitened_{detector_label.replace(' ', '_')}.png\")\n        fig.savefig(plot_filename)\n        print(f\"Plot for {detector_label} saved to {plot_filename}.\")\n        plt.show()\n        print(f\"Plot for {detector_label} displayed successfully.\")\n    except Exception as e:\n        print(f\"Error plotting whitened strain for {detector_label}: {e}\")\n\nif whitened_H1 is not None:\n    plot_whitened_strain(whitened_H1, \"Hanford (H1)\", output_dir)\nelse:\n    print(\"Whitened Hanford (H1) data not available. Skipping plot.\")\n\nif whitened_L1 is not None:\n    plot_whitened_strain(whitened_L1, \"Livingston (L1)\", output_dir)\nelse:\n    print(\"Whitened Livingston (L1) data not available. Skipping plot.\")\n\nprint(\"=\"*60)\nprint(\"GW150914 strain data analysis complete.\")\nprint(f\"All results saved in the '{output_dir}' directory.\")\n```\n\nEXECUTION NOTES:\n- **Output Directory:** All intermediate and final results (raw and whitened strain data, plots) are saved in the `gw150914_results` directory.\n- **Data Files:** Four `.txt` files will be created: `strain_H1.txt`, `strain_L1.txt`, `whitened_H1.txt`, and `whitened_L1.txt`, each containing time and strain columns.\n- **Plots:** Two PNG files (`whitened_Hanford_(H1).png`, `whitened_Livingston_(L1).png`) will be saved and also displayed interactively.\n- **Error Handling:** If data download or whitening fails for a detector, the script will skip subsequent steps for that detector and print an informative message.\n- **Dependencies:** Requires GWpy, matplotlib, and numpy (all available per your package list).\n- **Execution:** Run as a standalone Python script. Ensure you have internet access for data download and write permissions for the output directory.\n- **Expected Output:** The script will print progress, save data and plots, and display the whitened strain vs. time for both detectors (if data is available).",
+      "timestamp": "2025-11-06T13:38:37.036288"
+    },
+    "execution_result": {
+      "success": true,
+      "return_code": 0,
+      "stdout": "============================================================\nFetching strain data for GW150914 from 1126259458 to 1126259466...\nDownloading Hanford (H1) data...\nHanford (H1) data downloaded successfully.\nHanford (H1) strain data saved to strain_H1.txt.\nDownloading Livingston (L1) data...\nLivingston (L1) data downloaded successfully.\nLivingston (L1) strain data saved to strain_L1.txt.\n============================================================\nStarting whitening of strain data...\nWhitening Hanford (H1) strain data...\nHanford (H1) strain data whitened successfully.\nWhitened Hanford (H1) data saved to whitened_H1.txt.\nWhitening Livingston (L1) strain data...\nLivingston (L1) strain data whitened successfully.\nWhitened Livingston (L1) data saved to whitened_L1.txt.\n============================================================\nStarting plot of whitened strain data...\nPlotting whitened strain for Hanford (H1)...\nPlot for Hanford (H1) saved to gw150914_results/whitened_Hanford_(H1).png.\nPlot for Hanford (H1) displayed successfully.\nPlotting whitened strain for Livingston (L1)...\nPlot for Livingston (L1) saved to gw150914_results/whitened_Livingston_(L1).png.\nPlot for Livingston (L1) displayed successfully.\n============================================================\nGW150914 strain data analysis complete.\nAll results saved in the 'gw150914_results' directory.\n",
+      "stderr": "",
+      "execution_time": 91.665918,
+      "script_path": "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/integrated_analysis_20251106_133837.py",
+      "execution_directory": "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script",
+      "has_runtime_errors": false,
+      "error_indicators": [],
+      "timestamp": "2025-11-06T13:40:08.702777",
+      "output_files": [
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_L1_strain.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_whitened_bandpassed_strain_zoom.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_H1_filtered_time_domain.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_H1_filtered.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw170817_raw_strain.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_L1_raw.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw150914_results",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/reduced_template_bank.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_H1_times.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_L1_filtered_time_domain.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_L1_filtered.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/L1_GW170608_zoomed_plots.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/strain_H1_raw.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/results",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_H1_raw.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/template_bank_keys.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_strain_plot.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/failed_templates.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/H1_GW170608_zoomed_plots.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_H1_strain.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/strain_L1_raw.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw170817_preprocessed_strain.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_L1_times.npy"
+      ]
+    },
+    "execution_requested": true,
+    "token_usage": 3389,
+    "timestamp": "2025-11-06T13:40:08.703595"
+  },
+  "debug_session": {
+    "status": "user_terminated",
+    "debug_attempts": 1,
+    "debug_history": [],
+    "final_result": {
+      "success": true,
+      "return_code": 0,
+      "stdout": "============================================================\nFetching strain data for GW150914 from 1126259458 to 1126259466...\nDownloading Hanford (H1) data...\nHanford (H1) data downloaded successfully.\nHanford (H1) strain data saved to strain_H1.txt.\nDownloading Livingston (L1) data...\nLivingston (L1) data downloaded successfully.\nLivingston (L1) strain data saved to strain_L1.txt.\n============================================================\nStarting whitening of strain data...\nWhitening Hanford (H1) strain data...\nHanford (H1) strain data whitened successfully.\nWhitened Hanford (H1) data saved to whitened_H1.txt.\nWhitening Livingston (L1) strain data...\nLivingston (L1) strain data whitened successfully.\nWhitened Livingston (L1) data saved to whitened_L1.txt.\n============================================================\nStarting plot of whitened strain data...\nPlotting whitened strain for Hanford (H1)...\nPlot for Hanford (H1) saved to gw150914_results/whitened_Hanford_(H1).png.\nPlot for Hanford (H1) displayed successfully.\nPlotting whitened strain for Livingston (L1)...\nPlot for Livingston (L1) saved to gw150914_results/whitened_Livingston_(L1).png.\nPlot for Livingston (L1) displayed successfully.\n============================================================\nGW150914 strain data analysis complete.\nAll results saved in the 'gw150914_results' directory.\n",
+      "stderr": "",
+      "execution_time": 91.665918,
+      "script_path": "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/integrated_analysis_20251106_133837.py",
+      "execution_directory": "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script",
+      "has_runtime_errors": false,
+      "error_indicators": [],
+      "timestamp": "2025-11-06T13:40:08.702777",
+      "output_files": [
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_L1_strain.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_whitened_bandpassed_strain_zoom.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_H1_filtered_time_domain.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_H1_filtered.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw170817_raw_strain.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_L1_raw.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw150914_results",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/reduced_template_bank.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_H1_times.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_L1_filtered_time_domain.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_L1_filtered.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/L1_GW170608_zoomed_plots.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/strain_H1_raw.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/results",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW170608_H1_raw.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/template_bank_keys.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_strain_plot.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/failed_templates.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/H1_GW170608_zoomed_plots.png",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_H1_strain.npy",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/strain_L1_raw.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/gw170817_preprocessed_strain.hdf5",
+        "/home/sr/Desktop/code/gravagents/garvagents_logs/executor_script/GW150914_L1_times.npy"
+      ]
+    },
+    "timestamp": "2025-11-06T13:40:14.856077"
+  },
+  "token_usage": {
+    "scientific_interpreter": 1090,
+    "data_analyst": 6435,
+    "executor": 3389,
+    "debugger": 0,
+    "memory_agent": 0,
+    "total": 10914
+  }
+}
