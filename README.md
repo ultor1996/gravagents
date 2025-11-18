@@ -1,6 +1,6 @@
 # GravAgents
 
-![GravAgents](images/NeutronStarBinary_GravitationalWave_ArtistImpression_JPL_Credits-Caltech-JPL_R.Hurt_.jpg)  
+![GravAgents](images/unnamed.jpg)  
 
 *An AI agent based analysis tool for gravitational waves analysis.*
 
