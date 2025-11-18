@@ -50,9 +50,9 @@ Result: ![GravAgents](images/qtrasnformed_L2.png)
 Query 5: Download the H1 strain data for GW150914 using TimeSeries.fetch_open_data() over a 12-second window centered on the merger (~8 s before, 4 s after). Whiten the data and apply a bandpass filter between 30–250 Hz. Ensure that both detectors have consistent sample rates and lengths, resampling or trimming as necessary.Generate PyCBC waveform templates for component masses 10–30 M☉, zero spins, and specify a valid approximant (e.g., "SEOBNRv4_opt" or "IMRPhenomD") to avoid NoneType errors. Keep only templates longer than 0.2 s, and pad or truncate them to match the data length. Convert both the strain data and templates to PyCBC TimeSeries with identical delta_t.Important: Before plotting, scale each template so that its maximum absolute amplitude matches the maximum absolute amplitude of the processed H1 strain. This ensures that the template is clearly visible when overlaid on the detector signal.For each template, create a separate plot overlaying the scaled template on top of the H1 strain signal, so the alignment is clearly visible. Additionally, produce a plot showing the combined H1 strain data for reference.Save all individual template overlay plots, the combined H1 strain plot, and the template arrays to disk for later analysis. Skip PSD estimation and matched filtering for now, but ensure all valid templates are included in the overlay plots.
 
 
-Result:  ![GravAgents](images/qtrasnformed_L2.png)
-![GravAgents](images/qtrsnformed_H1.png)
-![GravAgents](images/qtrsnformed_H1.png)
+Result:  ![GravAgents](images/overlay_m1_10_m2_10.png)
+![GravAgents](images/overlay_m1_20_m2_18.png)
+![GravAgents](images/overlay_m1_30_m2_30.png)
 
 
 ---
