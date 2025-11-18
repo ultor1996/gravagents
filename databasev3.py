@@ -88,6 +88,32 @@ class RAGCapableDatabase:
             ("Waveform Matched Filter", "https://colab.research.google.com/github/gwastro/pycbc-tutorials/blob/master/tutorial/3_WaveformMatchedFilter.ipynb"),
             ("Chi-squared Significance", "https://colab.research.google.com/github/gwastro/pycbc-tutorials/blob/master/tutorial/4_ChisqSignificance.ipynb"),
         ]
+    
+    def add_local_script(self, script_path: str, description: str = ""):
+            """Add a local Python script to the RAG database."""
+            try:
+                if not os.path.exists(script_path):
+                    logger.error(f"Script not found: {script_path}")
+                    return
+
+                with open(script_path, "r", encoding="utf-8") as f:
+                    script_content = f.read()
+
+                # Add a new document entry
+                self.documents.append({
+                    "title": f"Local Script: {os.path.basename(script_path)}",
+                    "content": f"{description}\n\n=== CODE ===\n\n{script_content}",
+                    "source": "local_script",
+                    "category": "example_code",
+                    "importance": "high",
+                    "url": f"file://{script_path}",
+                    "tags": ["local", "example", "pycbc", "waveform", "blackhole", "mass_estimation"]
+                })
+
+                logger.info(f"Added local script: {script_path}")
+
+            except Exception as e:
+                logger.error(f"Failed to add local script: {e}")
 
 
     def scrape_function_level_documentation(self):
@@ -679,6 +705,11 @@ DOCUMENTATION: {func_info['url']}
         self.scrape_function_level_documentation()  # NEW
         self.build_import_registry()  # NEW
         self.scrape_colab_notebooks()
+        self.add_local_script(
+            "/home/sr/Desktop/code/gravagents/pycbc_eg.py",
+            "Example PyCBC analysis script demonstrating waveform matching "
+            "to estimate black hole masses using gravitational-wave data."
+        )
         
         logger.info(f"Collected {len(self.documents)} documents")
         logger.info(f"Function registry: {len(self.function_registry)} functions")
